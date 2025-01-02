@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matadorbet Bilet Sorgu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #2c3e50; /* Koyu Arka Plan */
+            color: white;
+            height: 100vh;
+            overflow: hidden; /* Kar tanelerinin kaymasını engeller */
+        }
+        header {
+            background-color: rgba(0, 123, 255, 0.8);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 3px solid #f1f1f1;
+        }
+        main {
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        label, input, button {
+            display: block;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        textarea {
+            display: block;
+            margin-bottom: 15px;
+            width: 100%;
+            height: 100px;
+            white-space: pre-wrap;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .results {
+            margin-top: 20px;
+            padding: 10px;
+            background: #333; /* Koyu arka plan */
+            border-radius: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .results h3 {
+            margin-top: 0;
+        }
+
+        /* Animasyonlu Kar Taneleri */
+        .snowflake {
+            position: fixed;
+            top: -10%;
+            z-index: 1000;
+            pointer-events: none;
+            font-size: 24px;
+            color: white;
+            user-select: none;
+            animation: snowfall 10s linear infinite;
+        }
+
+        @keyframes snowfall {
+            0% {
+                top: -10%;
+                opacity: 1;
+            }
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
+        }
+
+        /* Daha fazla kar tanesi için farklı boyutlar ve hızlar */
+        .snowflake:nth-child(odd) {
+            animation-duration: 12s;
+            font-size: 20px;
+        }
+
+        .snowflake:nth-child(even) {
+            animation-duration: 15s;
+            font-size: 28px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Matadorbet Bilet Sorgulama</h1>
+    </header>
+    <main>
+        <form id="compareForm">
+            <label for="mainNumber">Ana Sayı (1052448 - Değiştirilemez):</label>
+            <input type="text" id="mainNumber" value="1052448" readonly>
+
+            <label for="numbers">Kontrol Edilecek Sayılar (virgülle ayırın):</label>
+            <textarea id="numbers" required></textarea>
+
+            <button type="submit">Karşılaştır</button>
+            <button type="reset" id="resetButton">Sıfırla</button>
+        </form>
+
+        <div id="results" class="results"></div>
+    </main>
+
+    <!-- Kar Tanesi Animasyonu -->
+    <div class="snowflake" style="left: 5%;">❄</div>
+    <div class="snowflake" style="left: 15%;">❄</div>
+    <div class="snowflake" style="left: 25%;">❄</div>
+    <div class="snowflake" style="left: 35%;">❄</div>
+    <div class="snowflake" style="left: 45%;">❄</div>
+    <div class="snowflake" style="left: 55%;">❄</div>
+    <div class="snowflake" style="left: 65%;">❄</div>
+    <div class="snowflake" style="left: 75%;">❄</div>
+    <div class="snowflake" style="left: 85%;">❄</div>
+    <div class="snowflake" style="left: 95%;">❄</div>
+    <div class="snowflake" style="left: 20%;">❄</div>
+    <div class="snowflake" style="left: 30%;">❄</div>
+    <div class="snowflake" style="left: 40%;">❄</div>
+    <div class="snowflake" style="left: 50%;">❄</div>
+    <div class="snowflake" style="left: 60%;">❄</div>
+    <div class="snowflake" style="left: 70%;">❄</div>
+
+    <script>
+        document.getElementById('numbers').addEventListener('input', function () {
+            let inputText = this.value.replace(/\s+/g, ''); // Remove any whitespace
+            let formattedText = '';
+            for (let i = 0; i < inputText.length; i += 7) {
+                formattedText += inputText.slice(i, i + 7) + '\n';
+            }
+            this.value = formattedText.trim();
+        });
+
+        document.getElementById('compareForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const mainNumber = document.getElementById('mainNumber').value;
+            const numbers = document.getElementById('numbers').value.split('\n').map(num => num.trim());
+            const resultsDiv = document.getElementById('results');
+
+            if (mainNumber.length !== 7 || numbers.some(num => num.length !== 7)) {
+                resultsDiv.innerHTML = '<p>Lütfen tüm sayıları 7 haneli olarak giriniz.</p>';
+                return;
+            }
+
+            const suffix3 = mainNumber.slice(-3);
+            const suffix4 = mainNumber.slice(-4);
+            const suffix5 = mainNumber.slice(-5);
+            const suffix6 = mainNumber.slice(-6);
+            const suffix7 = mainNumber.slice(-7);
+
+            const matchingNumbers3 = numbers.filter(num => num.slice(-3) === suffix3);
+            const matchingNumbers4 = numbers.filter(num => num.slice(-4) === suffix4);
+            const matchingNumbers5 = numbers.filter(num => num.slice(-5) === suffix5);
+            const matchingNumbers6 = numbers.filter(num => num.slice(-6) === suffix6);
+            const matchingNumbers7 = numbers.filter(num => num.slice(-7) === suffix7);
+
+            let resultsContent = '';
+
+            // Eşleşen sayılar
+            const allMatchingNumbers = [...matchingNumbers3, ...matchingNumbers4, ...matchingNumbers5, ...matchingNumbers6, ...matchingNumbers7];
+
+            if (allMatchingNumbers.length > 0) {
+                resultsContent += `<h3>Eşleşen Biletler: ${allMatchingNumbers.length} adet</h3>`;
+                allMatchingNumbers.forEach(num => {
+                    resultsContent += `<p>${num} biletiniz kazandı!</p>`;
+                });
+            } else {
+                resultsContent += '<p>Eşleşen bilet bulunamadı.</p>';
+            }
+
+            // Eşleşmeyen sayılar
+            const nonMatchingNumbers = numbers.filter(num => 
+                !allMatchingNumbers.includes(num)
+            );
+
+            if (nonMatchingNumbers.length > 0) {
+                resultsContent += '<h3>Eşleşmeyen Biletler:</h3>';
+                nonMatchingNumbers.forEach(num => {
+                    resultsContent += `<p>${num} biletinizin son 3, 4, 5, 6 veya 7 hanesi eşleşmemektedir.</p>`;
+                });
+            }
+
+            resultsDiv.innerHTML = resultsContent;
+        });
+
+        document.getElementById('resetButton').addEventListener('click', function () {
+            document.getElementById('numbers').value = ''; // Textarea'yı sıfırla
+            document.getElementById('results').innerHTML = ''; // Sonuçları temizle
+        });
+    </script>
+</body>
+</html>
